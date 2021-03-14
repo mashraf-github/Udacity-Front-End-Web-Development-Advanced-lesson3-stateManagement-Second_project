@@ -13,27 +13,25 @@ class BooksApp extends Component {
   };
 
   getAllBooks = () => {
-    this.hasLoad(true);
-    BooksAPI.getAll().then((books) => {
-      this.setState(() => ({
-        books,
-      }));
-      this.hasLoad(false);
-    });
+    return BooksAPI.getAll();
   };
 
-  componentDidMount() {
-    this.getAllBooks();
+  async componentDidMount() {
+    this.hasLoad(true);
+    const books = await this.getAllBooks();
+    this.hasLoad(false);
+    this.setState(() => ({
+      books,
+    }));
   }
 
-  updateBook = (book, shelf) => {
+  updateBook = async (book, shelf) => {
     this.hasLoad(true);
     console.log(`shelf: ${shelf}`);
-    BooksAPI.update(book, shelf).then(
-      setTimeout(() => {
-        this.getAllBooks();
-      }, 1000)
-    );
+    await BooksAPI.update(book, shelf);
+    const books = await this.getAllBooks();
+    this.hasLoad(false);
+    this.setState(() => ({ books }));
   };
 
   hasLoad = (isLoading) => {

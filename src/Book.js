@@ -7,6 +7,12 @@ class Book extends Component {
       this.props.book.authors && this.props.book.authors.length > 0
         ? `[${this.props.book.authors.join("], [")}]`
         : "";
+    // debugger;
+    const coverImg =
+      this.props.book.imageLinks === undefined ||
+      this.props.book.imageLinks.thumbnail === undefined
+        ? "https://i.pinimg.com/originals/5d/35/e3/5d35e39988e3a183bdc3a9d2570d20a9.gif"
+        : this.props.book.imageLinks.thumbnail;
     return (
       <div className="book">
         <div className="book-top">
@@ -15,7 +21,9 @@ class Book extends Component {
             style={{
               width: 128,
               height: 192,
-              backgroundImage: `url("${this.props.book.imageLinks.thumbnail}")`,
+              backgroundImage: `url(${coverImg})`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "100% 100%",
             }}
           />
           <div className="book-shelf-changer">
